@@ -18,7 +18,7 @@ return [
     'default_dirver' => 'default',
     'drivers' => [
         'drivers_name' => [
-            'status_key' => 'stateo',
+            'status_key' => 'status',
             'reset_success' => ['data'],
             'reset_error' => ['number', 'message']
         ]
@@ -31,6 +31,61 @@ return [
  
  `driver` array of drivers you want to use 
  
+ `driver.status_key` is status key of state of response true/false
  
+ `driver.reset_success` array of data in success response
  
+ `driver.reset_error`   array of data in failed response
+ 
+ ## using
+ #### 1- make driver like this 
+ ```php
+<?php
 
+return [
+    'withstatus' => false,
+    'default_dirver' => 'profile-api',
+    'drivers' => [
+        'profile-api' => [
+            'status_key' => 'status',
+            'reset_success' => [ 'api_number','data'],
+            'reset_error' => ['error_number', 'error_message']
+        ]
+    ]
+];
+```
+#### 2- make controller and use `LaravelResponse`
+ ```php
+<?php
+
+namespace App\Http\Controllers;
+
+use Horcrux\Handleresponse\Core\Traits\LaravelResponse;
+use Illuminate\Http\Request;
+
+class TestController extends Controller
+{
+    use LaravelResponse;
+    public function index()
+    {
+        return $this->senddata([152 , 'one']);
+    }
+}
+```
+this will return 
+```js
+{ status: true,
+  api_number: 152,
+  data: "one" }
+```
+##### if you want return error 
+```php
+return $this->senderror([258 , 'user is not found'])
+```
+will return 
+```js
+{	
+status:	false,
+error_number:258,
+error_message:"user is not found" }
+```
