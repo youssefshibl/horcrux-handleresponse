@@ -104,3 +104,11 @@ another method to change driver
 $this->change_driver('other_driver');
 return $this->senderror([258 , 'user is not found']);
 ```
+method to send success only 
+```php
+return $this->sendsuccess();
+```
+will return 
+```js
+{status:true}
+```
