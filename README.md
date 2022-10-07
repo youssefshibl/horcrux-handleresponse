@@ -89,3 +89,18 @@ status:	false,
 error_number:258,
 error_message:"user is not found" }
 ```
+
+you can set status code in method like 
+```php
+return $this->senderror([258 , 'user is not found'],500);
+// response will return with 500 status code
+```
+as well as you can set dirver name if you want to change default driver in some response
+```php
+return $this->senderror([258 , 'user is not found'],500 , 'other_driver');
+```
+another method to change driver
+```php
+$this->change_driver('other_driver');
+return $this->senderror([258 , 'user is not found']);
+```
