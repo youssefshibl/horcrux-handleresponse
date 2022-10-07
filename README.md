@@ -17,7 +17,7 @@ return [
     'withstatus' => false,
     'default_dirver' => 'default',
     'drivers' => [
-        'default' => [
+        'drivers_name' => [
             'status_key' => 'stateo',
             'reset_success' => ['data'],
             'reset_error' => ['number', 'message']
@@ -25,4 +25,12 @@ return [
     ]
 ];
 ```
+ `withstatus`  refere to add status code in the response or not 
+ 
+ `default_dirver` name of default driver or schema you want to use 
+ 
+ `driver` array of drivers you want to use 
+ 
+ 
+ 
 
