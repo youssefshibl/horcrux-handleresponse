@@ -1,0 +1,28 @@
+{
+  "name": "horcrux/handleresponse",
+  "description": "package to handle response",
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "Horcrux\\Handleresponse\\": "src/"
+    }
+  },
+  "authors": [
+    {
+      "name": "youssefshibl",
+      "email": "youssefshibl000@gmail.com"
+    }
+  ],
+  "require-dev": {
+    "orchestra/testbench": "^6.25"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Horcrux\\Handleresponse\\HandleresponseServiceProvider"
+      ]
+    }
+  }
+}
+
