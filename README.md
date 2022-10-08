@@ -112,3 +112,51 @@ will return
 ```js
 {status:true}
 ```
+## custom your function
+to custom your function make function start with `h_` like this
+```php
+<?php
+
+return [
+    'withstatus' => false,
+    'default_dirver' => 'profile-api',
+    'drivers' => [
+        'profile-api' => [
+            'status_key' => 'status',
+            'reset_success' => ['api_number', 'data'],
+            'reset_error' => ['error_number', 'error_message'],
+            'h_profile' => ['profile_id', 'profil_name', 'data'],
+        ]
+    ]
+];
+```
+to use in in controller make like this
+```php 
+<?php
+
+namespace App\Http\Controllers;
+
+use Horcrux\Handleresponse\Core\Traits\LaravelResponse;
+
+class TestController extends Controller
+{
+    //
+    use LaravelResponse;
+    public function index()
+    {
+        return $this->h_profile([252, 'youssef', [
+            'one' => 'one',
+            'two' => 'two'
+        ]]);
+        //return $this->h_profile([data_array], status_code, driver_name)
+    }
+}
+```
+the response will return 
+```js 
+{
+    profile_id: 252,
+    profil_name: "youssef",
+    data: { one: "one", two: "two" },
+}
+```
