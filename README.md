@@ -1,4 +1,4 @@
-# horcrux-handleresponse 1
+# horcrux-handleresponse
 horcrux-handleresponse is small laravel package handle schema of response in laravel
 ### install
 ```bash
