@@ -59,7 +59,11 @@ trait LaravelResponse
     {
         $driver_reset_array = config('horcruxresponse.drivers.' . $this->driver . '.' . $reset_name);
         $driver_key_status = config('horcruxresponse.drivers.' . $this->driver . '.status_key');
+
         $count_reset = count($driver_reset_array);
+        if ($count_reset != count($data)) {
+            throw new ErrorException('data array miss element');
+        }
         $schema = [
             $driver_key_status => $key_statues
         ];
@@ -97,5 +101,47 @@ trait LaravelResponse
             }
             return true;
         }
+    }
+
+    public function __call($name, $arguments)
+    {
+        if (substr($name, 0, 2) == "h_") {
+            return $this->call_method($name, $arguments);
+            // return $arguments;
+        } else {
+            throw new ErrorException("the $name method dont exist in class");
+        }
+    }
+    protected function call_method($name, $arguments)
+    {
+        $data = $arguments[0];
+        $status_code = $arguments[1] ?? null;
+        $driver = $arguments[2] ?? '';
+        // check driver
+        if (!$this->driver_defined) {
+            $this->check_driver($driver);
+        }
+        $data_finished = $this->get_schema_call($data, $name);
+        if ($this->check_status_code($status_code)) {
+            return response()->json($data_finished, $this->status_code_value);
+        } else {
+            return response()->json($data_finished);
+        }
+    }
+    protected function get_schema_call($data = [], $reset_name)
+    {
+        $driver_reset_array = config('horcruxresponse.drivers.' . $this->driver . '.' . $reset_name);
+          if(!(bool) $driver_reset_array){
+            throw new ErrorException("method $reset_name not found in horcruxresponse.php in driver $this->driver");
+          }
+        $count_reset = count($driver_reset_array);
+        if ($count_reset != count($data)) {
+            throw new ErrorException('data array miss element');
+        }
+        $schema = [];
+        for ($i = 0; $i < $count_reset; $i++) {
+            $schema[$driver_reset_array[$i]] = $data[$i];
+        }
+        return $schema;
     }
 }
